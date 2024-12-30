@@ -9,7 +9,7 @@ def to_float(entry):
         return float(matches.group(1))
     else:
         return float('nan')
-    
+
 def difficulty_to_int(diff):
     return ['Easy', 'Easy/Intermediate', 'Intermediate', 'Intermediate/Difficult', 'Difficult', 'Very Difficult'].index(diff)
 
@@ -29,6 +29,8 @@ for route in routes:
     route.pop('location')
 
 df = pd.DataFrame(routes)
+df['id'] = df['id'].astype('int64')
+print(df.dtypes)
 conn = sqlite3.connect('routes.db')
 df.to_sql('routes', conn, if_exists='replace', index=False)
 conn.close()
